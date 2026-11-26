@@ -1,0 +1,1012 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>StudentHub | Academic Records</title>
+        <style>
+            :root {
+                --navy: #112b3c;
+                --teal: #087f75;
+                --ink: #172f40;
+                --muted: #718096;
+                --bg: #f3f6fa;
+                --line: #e3eaf0;
+                --white: #fff;
+                --red: #b83c48;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--ink);
+                font:
+                    14px/1.5 Inter,
+                    "Segoe UI",
+                    Arial,
+                    sans-serif;
+            }
+            button,
+            input,
+            select {
+                font: inherit;
+            }
+            .app {
+                min-height: 100vh;
+                display: grid;
+                grid-template-columns: 235px 1fr;
+            }
+            aside {
+                background: var(--navy);
+                color: white;
+                padding: 28px 16px;
+                display: flex;
+                flex-direction: column;
+            }
+            .brand {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 4px 12px 34px;
+                font-size: 19px;
+                font-weight: 750;
+            }
+            .brand-mark {
+                display: grid;
+                place-items: center;
+                width: 35px;
+                height: 35px;
+                border-radius: 10px;
+                background: var(--teal);
+                font-size: 19px;
+            }
+            .eyebrow {
+                font-size: 10px;
+                letter-spacing: 1.4px;
+                color: #91aabb;
+                font-weight: 700;
+                padding: 0 13px;
+                margin: 8px 0 12px;
+            }
+            nav {
+                display: grid;
+                gap: 6px;
+            }
+            nav button {
+                border: 0;
+                background: transparent;
+                color: #d6e1e9;
+                text-align: left;
+                padding: 13px 14px;
+                border-radius: 9px;
+                cursor: pointer;
+                font-weight: 600;
+            }
+            nav button.active,
+            nav button:hover {
+                background: #1c4658;
+                color: white;
+            }
+            .nav-divider {
+                height: 1px;
+                background: #ffffff20;
+                margin: 15px 8px;
+            }
+            .side-foot {
+                margin-top: auto;
+                padding: 16px 12px;
+                color: #a9c0ce;
+                font-size: 11px;
+            }
+            main {
+                padding: 30px 38px;
+                min-width: 0;
+                max-width: 1600px;
+                width: 100%;
+                margin: auto;
+            }
+            .topbar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--muted);
+                font-size: 12px;
+                margin-bottom: 27px;
+            }
+            .status {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #d99a35;
+            }
+            .dot.ok {
+                background: #18a67a;
+            }
+            .heading {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 20px;
+            }
+            .heading h1 {
+                font-size: 29px;
+                line-height: 1.2;
+                margin: 0;
+                font-weight: 750;
+            }
+            .heading p {
+                color: var(--muted);
+                margin: 7px 0 0;
+            }
+            button.primary {
+                background: var(--teal);
+                color: white;
+                border: 0;
+                border-radius: 8px;
+                padding: 11px 16px;
+                font-weight: 650;
+                cursor: pointer;
+            }
+            button.primary:hover {
+                background: #066b63;
+            }
+            .stats {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 16px;
+                margin: 25px 0;
+            }
+            .stat {
+                background: white;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 17px 20px;
+                box-shadow: 0 2px 8px #172f4008;
+            }
+            .stat small {
+                color: var(--muted);
+                font-weight: 700;
+                letter-spacing: 0.7px;
+            }
+            .stat strong {
+                display: block;
+                font-size: 28px;
+                margin-top: 4px;
+            }
+            .toolbar {
+                display: flex;
+                gap: 10px;
+                margin: 0 0 13px;
+            }
+            .toolbar input,
+            .toolbar select,
+            .field input,
+            .field select {
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                padding: 11px 12px;
+                background: white;
+                color: var(--ink);
+                outline: none;
+            }
+            .toolbar input {
+                flex: 1;
+                min-width: 120px;
+            }
+            .toolbar input:focus,
+            .field input:focus,
+            .field select:focus {
+                border-color: var(--teal);
+                box-shadow: 0 0 0 3px #087f7518;
+            }
+            .secondary {
+                background: white;
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                padding: 10px 14px;
+                cursor: pointer;
+                color: var(--ink);
+                font-weight: 600;
+            }
+            .table-wrap {
+                background: white;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                overflow: auto;
+                min-height: 250px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                white-space: nowrap;
+            }
+            th {
+                text-align: left;
+                background: #f8fafc;
+                color: #748395;
+                font-size: 10px;
+                letter-spacing: 0.8px;
+                padding: 15px 17px;
+            }
+            td {
+                padding: 15px 17px;
+                border-top: 1px solid #edf1f5;
+            }
+            tbody tr:hover {
+                background: #f9fbfc;
+            }
+            .actions {
+                display: flex;
+                gap: 7px;
+            }
+            .action {
+                border: 1px solid var(--line);
+                background: white;
+                border-radius: 6px;
+                padding: 6px 9px;
+                cursor: pointer;
+            }
+            .action.delete {
+                color: var(--red);
+            }
+            .footer {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: var(--muted);
+                font-size: 12px;
+                padding: 13px 2px;
+            }
+            .empty {
+                text-align: center;
+                padding: 50px 20px;
+                color: var(--muted);
+            }
+            .empty b {
+                display: block;
+                color: var(--ink);
+                font-size: 17px;
+                margin-bottom: 5px;
+            }
+            .notice {
+                margin: 0 0 16px;
+                padding: 11px 14px;
+                border-radius: 8px;
+                background: #fff5e6;
+                color: #80551c;
+                display: none;
+            }
+            .notice.show {
+                display: block;
+            }
+            .notice.error {
+                background: #fff0f0;
+                color: #a52c39;
+            }
+            dialog {
+                border: 0;
+                border-radius: 14px;
+                padding: 0;
+                width: min(480px, calc(100% - 28px));
+                box-shadow: 0 24px 70px #0d223344;
+            }
+            dialog::backdrop {
+                background: #0b2030a6;
+            }
+            .modal-head {
+                padding: 20px 23px;
+                border-bottom: 1px solid var(--line);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .modal-head h2 {
+                margin: 0;
+                font-size: 19px;
+            }
+            .modal-body {
+                padding: 22px 23px;
+                display: grid;
+                gap: 15px;
+            }
+            .field {
+                display: grid;
+                gap: 6px;
+            }
+            .field label {
+                font-weight: 650;
+                font-size: 12px;
+                color: #526477;
+            }
+            .field input,
+            .field select {
+                width: 100%;
+            }
+            .modal-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 9px;
+                padding: 0 23px 22px;
+            }
+            .close {
+                border: 0;
+                background: transparent;
+                font-size: 23px;
+                cursor: pointer;
+                color: var(--muted);
+            }
+            @media (max-width: 760px) {
+                .app {
+                    grid-template-columns: 1fr;
+                }
+                aside {
+                    padding: 12px 14px;
+                }
+                .brand {
+                    padding: 4px 8px 12px;
+                }
+                aside .eyebrow,
+                .side-foot {
+                    display: none;
+                }
+                nav {
+                    display: flex;
+                    overflow: auto;
+                }
+                nav button {
+                    white-space: nowrap;
+                    padding: 9px 12px;
+                }
+                main {
+                    padding: 22px 16px;
+                }
+                .stats {
+                    gap: 8px;
+                }
+                .stat {
+                    padding: 13px;
+                }
+                .stat strong {
+                    font-size: 23px;
+                }
+                .heading {
+                    align-items: flex-start;
+                }
+                .heading h1 {
+                    font-size: 25px;
+                }
+                .toolbar {
+                    flex-wrap: wrap;
+                }
+                .toolbar input {
+                    flex-basis: 100%;
+                }
+            }
+
+            /* Settings and appearance preferences */
+            :root {
+                --accent: var(--teal);
+            }
+            .settings-intro {
+                margin: 28px 0 18px;
+            }
+            .settings-intro h2 {
+                margin: 0;
+                font-size: 20px;
+            }
+            .settings-intro p {
+                margin: 5px 0;
+                color: var(--muted);
+            }
+            .settings-grid {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 15px;
+            }
+            .settings-card {
+                background: white;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 20px;
+                display: grid;
+                gap: 15px;
+                box-shadow: 0 2px 8px #172f4008;
+            }
+            .settings-card h3 {
+                margin: 0;
+                font-size: 16px;
+            }
+            .settings-card p {
+                margin: 3px 0;
+                color: var(--muted);
+                font-size: 12px;
+            }
+            .settings-card small {
+                color: var(--muted);
+                line-height: 1.6;
+            }
+            .settings-icon {
+                width: 35px;
+                height: 35px;
+                border-radius: 9px;
+                background: #087f7515;
+                color: var(--accent);
+                display: grid;
+                place-items: center;
+                font-size: 19px;
+            }
+            .setting-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 12px;
+                padding-top: 12px;
+                border-top: 1px solid var(--line);
+                font-weight: 600;
+            }
+            .setting-row select {
+                border: 1px solid var(--line);
+                border-radius: 7px;
+                padding: 8px 10px;
+                background: var(--white);
+                color: var(--ink);
+                max-width: 160px;
+            }
+            .setting-row input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                accent-color: var(--accent);
+            }
+            .settings-about {
+                grid-column: 1/-1;
+                grid-template-columns: 35px 1fr;
+                align-items: start;
+            }
+            .settings-actions {
+                display: flex;
+                justify-content: flex-end;
+                gap: 9px;
+                margin-top: 18px;
+            }
+            .settings-feedback {
+                color: var(--accent);
+                font-size: 12px;
+                text-align: right;
+                min-height: 18px;
+            }
+            body[data-theme="dark"] {
+                --ink: #e6edf3;
+                --muted: #9aabba;
+                --bg: #101b26;
+                --line: #2b3a48;
+                --white: #172633;
+            }
+            body[data-theme="dark"] .stat,
+            body[data-theme="dark"] .table-wrap,
+            body[data-theme="dark"] .settings-card,
+            body[data-theme="dark"] .toolbar input,
+            body[data-theme="dark"] .toolbar select,
+            body[data-theme="dark"] .secondary,
+            body[data-theme="dark"] .action,
+            body[data-theme="dark"] .field input,
+            body[data-theme="dark"] .field select {
+                background: #172633;
+                color: var(--ink);
+                border-color: var(--line);
+            }
+            body[data-theme="dark"] th {
+                background: #1d2d3b;
+                color: #a9b8c5;
+            }
+            body[data-theme="dark"] td {
+                border-color: var(--line);
+            }
+            body[data-theme="dark"] tbody tr:hover {
+                background: #1d2d3b;
+            }
+            body[data-theme="dark"] .settings-card {
+                box-shadow: none;
+            }
+            body[data-theme="dark"] dialog {
+                background: #172633;
+                color: var(--ink);
+            }
+            body[data-theme="dark"] .modal-head {
+                border-color: var(--line);
+            }
+            body[data-theme="dark"] .notice.error {
+                background: #3b2027;
+                color: #ffb7bf;
+            }
+            body[data-theme="dark"] .notice {
+                background: #3c3322;
+                color: #f4d49c;
+            }
+            body[data-density="compact"] td {
+                padding: 9px 14px;
+            }
+            body[data-density="compact"] th {
+                padding: 10px 14px;
+            }
+            body[data-density="compact"] .stat {
+                padding: 12px 16px;
+            }
+            @media (max-width: 760px) {
+                .settings-grid {
+                    grid-template-columns: 1fr;
+                }
+                .settings-about {
+                    grid-column: auto;
+                }
+                .settings-actions {
+                    justify-content: stretch;
+                }
+                .settings-actions button {
+                    flex: 1;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="app">
+            <aside>
+                <div class="brand"><span class="brand-mark">S</span> StudentHub</div>
+                <div class="eyebrow">ACADEMIC WORKSPACE</div>
+                <div class="eyebrow">MANAGE RECORDS</div>
+                <nav>
+                    <button class="active" data-entity="students">♙ &nbsp; Students</button>
+                    <button data-entity="courses">▤ &nbsp; Courses</button>
+                    <button data-entity="departments">▦ &nbsp; Departments</button>
+                    <div class="nav-divider"></div>
+                    <button id="settingsNav" type="button">⚙ &nbsp; Settings</button>
+                </nav>
+                <div class="side-foot">ONE CONNECTED CAMPUS<br /><br />People. Courses. Possibilities.</div>
+            </aside>
+            <main>
+                <div class="topbar">
+                    <span>WORKSPACE &nbsp;/&nbsp; ACADEMIC RECORDS</span
+                    ><span class="status"
+                        ><i class="dot" id="statusDot"></i><span id="statusText">Connecting to MySQL…</span></span
+                    >
+                </div>
+                <div id="notice" class="notice"></div>
+                <section class="heading">
+                    <div>
+                        <h1 id="pageTitle">Students</h1>
+                        <p id="subtitle">A clear view of every student and their academic home.</p>
+                    </div>
+                    <button class="primary" id="addBtn">＋ Add student</button>
+                </section>
+                <section class="stats" id="statsSection">
+                    <div class="stat"><small>TOTAL STUDENTS</small><strong id="studentCount">—</strong></div>
+                    <div class="stat"><small>TOTAL COURSES</small><strong id="courseCount">—</strong></div>
+                    <div class="stat"><small>TOTAL DEPARTMENTS</small><strong id="departmentCount">—</strong></div>
+                </section>
+                <div class="toolbar" id="toolbarSection">
+                    <input id="search" type="search" placeholder="Search by name, email, course, department, or ID…" />
+                    <select id="filter" aria-label="Filter records">
+                        <option value="">All records</option>
+                    </select>
+                    <button class="secondary" id="refreshBtn">↻ Refresh</button>
+                    <button class="secondary" id="exportBtn">Export CSV</button>
+                </div>
+                <div class="table-wrap" id="tableSection">
+                    <table>
+                        <thead id="tableHead"></thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                    <div class="empty" id="empty" hidden>
+                        <b>No records found</b>Try another search or add a new record.
+                    </div>
+                </div>
+                <div class="footer"><span id="resultCount">Loading records…</span><span>StudentHub · MySQL</span></div>
+                <section id="settingsPage" hidden>
+                    <div class="settings-intro">
+                        <h2>Workspace preferences</h2>
+                        <p>Personalize how StudentHub looks and behaves in this browser.</p>
+                    </div>
+                    <div class="settings-grid">
+                        <article class="settings-card">
+                            <div class="settings-icon">◐</div>
+                            <div>
+                                <h3>Appearance</h3>
+                                <p>Choose the look of your workspace.</p>
+                            </div>
+                            <label class="setting-row"
+                                ><span>Theme</span
+                                ><select id="themeSetting">
+                                    <option value="light">Light</option>
+                                    <option value="dark">Dark</option>
+                                </select></label
+                            >
+                            <label class="setting-row"
+                                ><span>Accent color</span
+                                ><select id="accentSetting">
+                                    <option value="teal">Ocean teal</option>
+                                    <option value="blue">Classic blue</option>
+                                    <option value="violet">Violet</option>
+                                    <option value="green">Forest green</option>
+                                </select></label
+                            >
+                            <label class="setting-row"
+                                ><span>Display density</span
+                                ><select id="densitySetting">
+                                    <option value="comfortable">Comfortable</option>
+                                    <option value="compact">Compact</option>
+                                </select></label
+                            >
+                        </article>
+                        <article class="settings-card">
+                            <div class="settings-icon">⌘</div>
+                            <div>
+                                <h3>Behavior</h3>
+                                <p>Control common workspace actions.</p>
+                            </div>
+                            <label class="setting-row"
+                                ><span>Confirm before deleting</span
+                                ><input id="confirmDeleteSetting" type="checkbox" checked
+                            /></label>
+                            <label class="setting-row"
+                                ><span>Show summary cards</span><input id="showStatsSetting" type="checkbox" checked
+                            /></label>
+                        </article>
+                        <article class="settings-card settings-about">
+                            <div class="settings-icon">ⓘ</div>
+                            <div>
+                                <h3>About StudentHub</h3>
+                                <p>Academic records workspace</p>
+                                <small
+                                    >Frontend preferences are saved locally in this browser. Database credentials remain
+                                    configured in your Python backend.</small
+                                >
+                            </div>
+                        </article>
+                    </div>
+                    <div class="settings-actions">
+                        <button class="secondary" id="resetSettingsBtn">Reset to defaults</button
+                        ><button class="primary" id="saveSettingsBtn">Save preferences</button>
+                    </div>
+                    <p class="settings-feedback" id="settingsFeedback" aria-live="polite"></p>
+                </section>
+            </main>
+        </div>
+        <dialog id="recordDialog">
+            <form id="recordForm">
+                <div class="modal-head">
+                    <h2 id="modalTitle">Add student</h2>
+                    <button class="close" type="button" id="closeModal">×</button>
+                </div>
+                <div class="modal-body" id="formFields"></div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary" id="cancelBtn">Cancel</button
+                    ><button class="primary" type="submit">Save record</button>
+                </div>
+            </form>
+        </dialog>
+        <script>
+            const API = "/api";
+            const labels = { students: "Students", courses: "Courses", departments: "Departments" };
+            const subtitles = {
+                students: "A clear view of every student and their academic home.",
+                courses: "Manage courses and the departments they belong to.",
+                departments: "Organize academic departments and their records.",
+            };
+            let entity = "students",
+                snapshot = { students: [], courses: [], departments: [] },
+                editingId = null;
+            let settings = {
+                theme: "light",
+                accent: "teal",
+                density: "comfortable",
+                confirmDelete: true,
+                showStats: true,
+            };
+            const $ = (id) => document.getElementById(id);
+            function applySettings() {
+                document.body.dataset.theme = settings.theme;
+                document.body.dataset.density = settings.density;
+                const accents = { teal: "#087f75", blue: "#2563eb", violet: "#7c3aed", green: "#15803d" };
+                document.documentElement.style.setProperty("--teal", accents[settings.accent] || accents.teal);
+                $("statsSection").hidden = !settings.showStats;
+                $("themeSetting").value = settings.theme;
+                $("accentSetting").value = settings.accent;
+                $("densitySetting").value = settings.density;
+                $("confirmDeleteSetting").checked = settings.confirmDelete;
+                $("showStatsSetting").checked = settings.showStats;
+            }
+            function loadSettings() {
+                try {
+                    settings = { ...settings, ...JSON.parse(localStorage.getItem("studenthub-settings") || "{}") };
+                } catch (e) {}
+                applySettings();
+            }
+            function showSettings() {
+                $("pageTitle").textContent = "Settings";
+                $("subtitle").textContent = "Make StudentHub feel right for your workflow.";
+                $("addBtn").hidden = true;
+                $("statsSection").hidden = true;
+                $("toolbarSection").hidden = true;
+                $("tableSection").hidden = true;
+                $("settingsPage").hidden = false;
+                document.querySelectorAll("nav button[data-entity]").forEach((b) => b.classList.remove("active"));
+                $("settingsNav").classList.add("active");
+                $("themeSetting").value = settings.theme;
+                $("accentSetting").value = settings.accent;
+                $("densitySetting").value = settings.density;
+                $("confirmDeleteSetting").checked = settings.confirmDelete;
+                $("showStatsSetting").checked = settings.showStats;
+            }
+            function showRecords() {
+                $("addBtn").hidden = false;
+                $("toolbarSection").hidden = false;
+                $("tableSection").hidden = false;
+                $("settingsPage").hidden = true;
+                $("settingsNav").classList.remove("active");
+            }
+            function saveSettings() {
+                settings = {
+                    theme: $("themeSetting").value,
+                    accent: $("accentSetting").value,
+                    density: $("densitySetting").value,
+                    confirmDelete: $("confirmDeleteSetting").checked,
+                    showStats: $("showStatsSetting").checked,
+                };
+                localStorage.setItem("studenthub-settings", JSON.stringify(settings));
+                applySettings();
+                $("settingsFeedback").textContent = "Preferences saved on this browser.";
+            }
+            function notify(message, error = false) {
+                const n = $("notice");
+                n.textContent = message;
+                n.className = "notice show" + (error ? " error" : "");
+            }
+            function clearNotice() {
+                $("notice").className = "notice";
+            }
+            async function api(path, options = {}) {
+                const response = await fetch(API + path, {
+                    headers: { "Content-Type": "application/json" },
+                    ...options,
+                });
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(data.error || data.message || "Request failed");
+                return data;
+            }
+            async function load() {
+                try {
+                    snapshot = await api("/snapshot");
+                    $("statusDot").className = "dot ok";
+                    $("statusText").textContent = "MySQL connected";
+                    $("studentCount").textContent = snapshot.students.length;
+                    $("courseCount").textContent = snapshot.courses.length;
+                    $("departmentCount").textContent = snapshot.departments.length;
+                    render();
+                    clearNotice();
+                } catch (err) {
+                    $("statusDot").className = "dot";
+                    $("statusText").textContent = "Database unavailable";
+                    notify(
+                        err.message + " — check that MySQL is running and your database settings are correct.",
+                        true
+                    );
+                    $("resultCount").textContent = "Could not load records";
+                }
+            }
+            function fieldsForCurrent() {
+                if (entity === "students")
+                    return [
+                        ["name", "Student name", "text", true],
+                        ["email", "Email address", "email", true],
+                        ["course_id", "Course", "select", false, snapshot.courses.map((x) => [x.id, x.title])],
+                    ];
+                if (entity === "courses")
+                    return [
+                        ["title", "Course title", "text", true],
+                        [
+                            "department_id",
+                            "Department",
+                            "select",
+                            false,
+                            snapshot.departments.map((x) => [x.id, x.name]),
+                        ],
+                    ];
+                return [["name", "Department name", "text", true]];
+            }
+            function currentRows() {
+                let rows = snapshot[entity] || [],
+                    q = $("search").value.trim().toLowerCase(),
+                    filter = $("filter").value;
+                if (q)
+                    rows = rows.filter((r) =>
+                        Object.values(r).some((v) =>
+                            String(v ?? "")
+                                .toLowerCase()
+                                .includes(q)
+                        )
+                    );
+                if (filter && entity === "students") rows = rows.filter((r) => String(r.course_id ?? "") === filter);
+                if (filter && entity === "courses") rows = rows.filter((r) => String(r.department_id ?? "") === filter);
+                return rows;
+            }
+            function render() {
+                showRecords();
+                $("pageTitle").textContent = labels[entity];
+                $("subtitle").textContent = subtitles[entity];
+                $("addBtn").textContent =
+                    "＋ Add " + { students: "student", courses: "course", departments: "department" }[entity];
+                document
+                    .querySelectorAll("nav button")
+                    .forEach((b) => b.classList.toggle("active", b.dataset.entity === entity));
+                const filter = $("filter");
+                filter.innerHTML = "";
+                const options =
+                    entity === "students"
+                        ? snapshot.courses.map((x) => [x.id, x.title])
+                        : entity === "courses"
+                          ? snapshot.departments.map((x) => [x.id, x.name])
+                          : [];
+                filter.add(
+                    new Option(
+                        entity === "students"
+                            ? "All courses"
+                            : entity === "courses"
+                              ? "All departments"
+                              : "All records",
+                        ""
+                    )
+                );
+                options.forEach(([id, name]) => filter.add(new Option(name, id)));
+                const cols =
+                    entity === "students"
+                        ? [
+                              ["id", "ID"],
+                              ["name", "STUDENT NAME"],
+                              ["email", "EMAIL ADDRESS"],
+                              ["course_title", "COURSE"],
+                              ["department_name", "DEPARTMENT"],
+                          ]
+                        : entity === "courses"
+                          ? [
+                                ["id", "ID"],
+                                ["title", "COURSE TITLE"],
+                                ["department_name", "DEPARTMENT"],
+                                ["student_count", "STUDENTS"],
+                            ]
+                          : [
+                                ["id", "ID"],
+                                ["name", "DEPARTMENT NAME"],
+                                ["course_count", "COURSES"],
+                                ["student_count", "STUDENTS"],
+                            ];
+                $("tableHead").innerHTML =
+                    "<tr>" + cols.map((c) => `<th>${c[1]}</th>`).join("") + "<th>ACTIONS</th></tr>";
+                const rows = currentRows();
+                $("tableBody").innerHTML = rows
+                    .map(
+                        (r) =>
+                            `<tr>${cols.map((c) => `<td>${escapeHtml(r[c[0]] ?? "—")}</td>`).join("")}<td><div class="actions"><button class="action" data-edit="${r.id}">Edit</button><button class="action delete" data-delete="${r.id}">Delete</button></div></td></tr>`
+                    )
+                    .join("");
+                $("empty").hidden = rows.length !== 0;
+                $("resultCount").textContent = `Showing ${rows.length} of ${(snapshot[entity] || []).length} ${entity}`;
+            }
+            function escapeHtml(value) {
+                return String(value).replace(
+                    /[&<>"']/g,
+                    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]
+                );
+            }
+            function openForm(record = null) {
+                editingId = record ? record.id : null;
+                $("modalTitle").textContent =
+                    (record ? "Edit " : "Add ") +
+                    { students: "student", courses: "course", departments: "department" }[entity];
+                const fields = $("formFields");
+                fields.innerHTML = "";
+                fieldsForCurrent().forEach(([name, label, type, required, options]) => {
+                    const wrap = document.createElement("div");
+                    wrap.className = "field";
+                    const lab = document.createElement("label");
+                    lab.textContent = label;
+                    lab.htmlFor = "field_" + name;
+                    wrap.append(lab);
+                    let input;
+                    if (type === "select") {
+                        input = document.createElement("select");
+                        input.add(new Option("Select " + label.toLowerCase(), ""));
+                        (options || []).forEach(([id, text]) => input.add(new Option(text, id)));
+                        if (record && record[name] != null) input.value = record[name];
+                    } else {
+                        input = document.createElement("input");
+                        input.type = type;
+                        input.value = record?.[name] ?? "";
+                    }
+                    input.id = "field_" + name;
+                    input.name = name;
+                    input.required = required;
+                    wrap.append(input);
+                    fields.append(wrap);
+                });
+                $("recordDialog").showModal();
+            }
+            async function save(event) {
+                event.preventDefault();
+                const values = {};
+                new FormData($("recordForm")).forEach((v, k) => (values[k] = v === "" ? null : v));
+                try {
+                    await api("/" + entity + (editingId !== null ? "/" + editingId : ""), {
+                        method: editingId !== null ? "PUT" : "POST",
+                        body: JSON.stringify(values),
+                    });
+                    $("recordDialog").close();
+                    await load();
+                    notify("Record saved successfully.");
+                } catch (err) {
+                    notify(err.message, true);
+                }
+            }
+            async function removeRecord(id) {
+                const record = (snapshot[entity] || []).find((x) => x.id === id);
+                const name = record?.name || record?.title || "this record";
+                let warning = `Delete ${name}?`;
+                if (entity === "departments") warning += " Its courses and their students will also be deleted.";
+                if (entity === "courses") warning += " Its students will also be deleted.";
+                if (settings.confirmDelete && !confirm(warning)) return;
+                try {
+                    await api(`/${entity}/${id}`, { method: "DELETE" });
+                    await load();
+                    notify("Record deleted.");
+                } catch (err) {
+                    notify(err.message, true);
+                }
+            }
+            document.querySelectorAll("nav button[data-entity]").forEach((b) =>
+                b.addEventListener("click", () => {
+                    entity = b.dataset.entity;
+                    $("search").value = "";
+                    load();
+                })
+            );
+            $("settingsNav").addEventListener("click", showSettings);
+            $("saveSettingsBtn").addEventListener("click", saveSettings);
+            $("resetSettingsBtn").addEventListener("click", () => {
+                settings = {
+                    theme: "light",
+                    accent: "teal",
+                    density: "comfortable",
+                    confirmDelete: true,
+                    showStats: true,
+                };
+                localStorage.setItem("studenthub-settings", JSON.stringify(settings));
+                applySettings();
+                $("settingsFeedback").textContent = "Default preferences restored.";
+            });
+            $("search").addEventListener("input", render);
+            $("filter").addEventListener("change", render);
+            $("refreshBtn").addEventListener("click", load);
+            $("addBtn").addEventListener("click", () => openForm());
+            $("exportBtn").addEventListener("click", () => (window.location.href = API + "/export/" + entity));
+            $("tableBody").addEventListener("click", (e) => {
+                const edit = e.target.closest("[data-edit]"),
+                    del = e.target.closest("[data-delete]");
+                if (edit) {
+                    const row = snapshot[entity].find((x) => x.id === Number(edit.dataset.edit));
+                    openForm(row);
+                }
+                if (del) removeRecord(Number(del.dataset.delete));
+            });
+            $("recordForm").addEventListener("submit", save);
+            $("closeModal").addEventListener("click", () => $("recordDialog").close());
+            $("cancelBtn").addEventListener("click", () => $("recordDialog").close());
+            loadSettings();
+            load();
+        </script>
+    </body>
+</html>
