@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Find Your Boarding House</h1>
+<p>Find affordable and comfortable accommodation.</p>
+
+<div class="house-list">
+
+    {% for house in houses %}
+
+    <div class="house-card">
+
+        <h2>{{ house.name }}</h2>
+
+        <p>Location: {{ house.address }}</p>
+
+        <h3>₱{{ "%.2f"|format(house.price) }}/month</h3>
+
+        <p>Capacity: {{ house.capacity }} persons</p>
+
+        <p>{{ house.description }}</p>
+
+        <p>Status: {{ house.status }}</p>
+
+        {% if house.status == "Available" %}
+        <a class="btn"
+           href="{{ url_for('reserve', house_id=house.id) }}">
+            Reserve Now
+        </a>
+        {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <p>No boarding houses available.</p>
+
+    {% endfor %}
+
+</div>
+
+
+<h2>Add Boarding House</h2>
+
+<form action="{{ url_for('add_house') }}" method="POST">
+
+    <input type="text" name="name"
+           placeholder="Boarding House Name" required>
+
+    <input type="text" name="address"
+           placeholder="Complete Address" required>
+
+    <input type="number" name="price"
+           placeholder="Monthly Price"
+           min="1" step="0.01" required>
+
+    <input type="number" name="capacity"
+           placeholder="Room Capacity"
+           min="1" required>
+
+    <textarea name="description"
+              placeholder="Description"></textarea>
+
+    <button type="submit">Add Boarding House</button>
+
+</form>
+
+{% endblock %}

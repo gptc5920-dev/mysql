@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Reservation Management</h1>
+
+<table>
+
+    <tr>
+        <th>Tenant</th>
+        <th>Contact</th>
+        <th>Boarding House</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for record in records %}
+
+    <tr>
+        <td>{{ record.tenant_name }}</td>
+        <td>{{ record.contact }}</td>
+        <td>{{ record.house_name }}</td>
+        <td>{{ record.reservation_date }}</td>
+        <td>{{ record.status }}</td>
+
+        <td>
+            <form method="POST"
+                  action="{{ url_for('update_status',
+                                     reservation_id=record.id) }}">
+
+                <select name="status">
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+
+                <button type="submit">Update</button>
+
+            </form>
+        </td>
+    </tr>
+
+    {% else %}
+
+    <tr>
+        <td colspan="6">No reservations yet.</td>
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}
